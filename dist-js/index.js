@@ -26,7 +26,7 @@ import { Channel, invoke } from '@tauri-apps/api/core';
 async function register(shortcut, handler) {
     const h = new Channel();
     h.onmessage = handler;
-    return await invoke("plugin:global-shortcut|register", {
+    await invoke("plugin:global-shortcut|register", {
         shortcut,
         handler: h,
     });
@@ -49,7 +49,7 @@ async function register(shortcut, handler) {
 async function registerAll(shortcuts, handler) {
     const h = new Channel();
     h.onmessage = handler;
-    return await invoke("plugin:global-shortcut|register_all", {
+    await invoke("plugin:global-shortcut|register_all", {
         shortcuts,
         handler: h,
     });
@@ -87,7 +87,7 @@ async function isRegistered(shortcut) {
  * @since 2.0.0
  */
 async function unregister(shortcut) {
-    return await invoke("plugin:global-shortcut|unregister", {
+    await invoke("plugin:global-shortcut|unregister", {
         shortcut,
     });
 }
@@ -102,7 +102,7 @@ async function unregister(shortcut) {
  * @since 2.0.0
  */
 async function unregisterAll() {
-    return await invoke("plugin:global-shortcut|unregister_all");
+    await invoke("plugin:global-shortcut|unregister_all");
 }
 
 export { isRegistered, register, registerAll, unregister, unregisterAll };
