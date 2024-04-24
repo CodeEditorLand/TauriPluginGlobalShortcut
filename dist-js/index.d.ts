@@ -1,4 +1,9 @@
-export type ShortcutHandler = (shortcut: string) => void;
+export interface ShortcutEvent {
+    shortcut: string;
+    id: number;
+    state: "Released" | "Pressed";
+}
+export type ShortcutHandler = (event: ShortcutEvent) => void;
 /**
  * Register a global shortcut.
  * @example
