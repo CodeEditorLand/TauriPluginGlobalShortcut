@@ -9,8 +9,10 @@ export type ShortcutHandler = (event: ShortcutEvent) => void;
  * @example
  * ```typescript
  * import { register } from '@tauri-apps/plugin-global-shortcut';
- * await register('CommandOrControl+Shift+C', () => {
- *   console.log('Shortcut triggered');
+ * await register('CommandOrControl+Shift+C', (event) => {
+ *   if (event.state === "Pressed") {
+ *       console.log('Shortcut triggered');
+ *   }
  * });
  * ```
  *
@@ -25,8 +27,8 @@ declare function register(shortcut: string, handler: ShortcutHandler): Promise<v
  * @example
  * ```typescript
  * import { registerAll } from '@tauri-apps/plugin-global-shortcut';
- * await registerAll(['CommandOrControl+Shift+C', 'Ctrl+Alt+F12'], (shortcut) => {
- *   console.log(`Shortcut ${shortcut} triggered`);
+ * await registerAll(['CommandOrControl+Shift+C', 'Ctrl+Alt+F12'], (event) => {
+ *   console.log(`Shortcut ${event.shortcut} ${event.state}`);
  * });
  * ```
  *
