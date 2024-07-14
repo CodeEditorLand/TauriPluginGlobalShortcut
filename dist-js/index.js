@@ -9,14 +9,27 @@ import { Channel, invoke } from '@tauri-apps/api/core';
  * @module
  */
 /**
- * Register a global shortcut.
+ * Register a global shortcut or a list of shortcuts.
+ *
+ * The handler is called when any of the registered shortcuts are pressed by the user.
+ *
+ * If the shortcut is already taken by another application, the handler will not be triggered.
+ * Make sure the shortcut is as unique as possible while still taking user experience into consideration.
+ *
  * @example
  * ```typescript
  * import { register } from '@tauri-apps/plugin-global-shortcut';
+ *
+ * // register a single hotkey
  * await register('CommandOrControl+Shift+C', (event) => {
  *   if (event.state === "Pressed") {
  *       console.log('Shortcut triggered');
  *   }
+ * });
+ *
+ * // or register multiple hotkeys at once
+ * await register(['CommandOrControl+Shift+C', 'Alt+A'], (event) => {
+ *   console.log(`Shortcut ${event.shortcut} triggered`);
  * });
  * ```
  *
@@ -25,36 +38,49 @@ import { Channel, invoke } from '@tauri-apps/api/core';
  *
  * @since 2.0.0
  */
-async function register(shortcut, handler) {
+async function register(shortcuts, handler) {
     const h = new Channel();
     h.onmessage = handler;
-    await invoke("plugin:global-shortcut|register", {
-        shortcut,
+    return await invoke("plugin:global-shortcut|register", {
+        shortcuts: Array.isArray(shortcuts) ? shortcuts : [shortcuts],
         handler: h,
     });
 }
 /**
- * Register a collection of global shortcuts.
+ * Unregister a global shortcut or a list of shortcuts.
+ *
  * @example
  * ```typescript
- * import { registerAll } from '@tauri-apps/plugin-global-shortcut';
- * await registerAll(['CommandOrControl+Shift+C', 'Ctrl+Alt+F12'], (event) => {
- *   console.log(`Shortcut ${event.shortcut} ${event.state}`);
- * });
+ * import { unregister } from '@tauri-apps/plugin-global-shortcut';
+ *
+ * // unregister a single hotkey
+ * await unregister('CmdOrControl+Space');
+ *
+ * // or unregister multiple hotkeys at the same time
+ * await unregister(['CmdOrControl+Space', 'Alt+A']);
  * ```
  *
- * @param shortcuts Array of shortcut definitions, modifiers and key separated by "+" e.g. CmdOrControl+Q
- * @param handler Shortcut handler callback - takes the triggered shortcut as argument
+ * @param shortcut shortcut definition (modifiers and key separated by "+" e.g. CmdOrControl+Q), also accepts a list of shortcuts
  *
  * @since 2.0.0
  */
-async function registerAll(shortcuts, handler) {
-    const h = new Channel();
-    h.onmessage = handler;
-    await invoke("plugin:global-shortcut|register_all", {
-        shortcuts,
-        handler: h,
+async function unregister(shortcuts) {
+    return await invoke("plugin:global-shortcut|unregister", {
+        shortcuts: Array.isArray(shortcuts) ? shortcuts : [shortcuts],
     });
+}
+/**
+ * Unregister all global shortcuts.
+ *
+ * @example
+ * ```typescript
+ * import { unregisterAll } from '@tauri-apps/plugin-global-shortcut';
+ * await unregisterAll();
+ * ```
+ * @since 2.0.0
+ */
+async function unregisterAll() {
+    return await invoke("plugin:global-shortcut|unregister_all", {});
 }
 /**
  * Determines whether the given shortcut is registered by this application or not.
@@ -76,35 +102,5 @@ async function isRegistered(shortcut) {
         shortcut,
     });
 }
-/**
- * Unregister a global shortcut.
- * @example
- * ```typescript
- * import { unregister } from '@tauri-apps/plugin-global-shortcut';
- * await unregister('CmdOrControl+Space');
- * ```
- *
- * @param shortcut shortcut definition, modifiers and key separated by "+" e.g. CmdOrControl+Q
- *
- * @since 2.0.0
- */
-async function unregister(shortcut) {
-    await invoke("plugin:global-shortcut|unregister", {
-        shortcut,
-    });
-}
-/**
- * Unregisters all shortcuts registered by the application.
- * @example
- * ```typescript
- * import { unregisterAll } from '@tauri-apps/plugin-global-shortcut';
- * await unregisterAll();
- * ```
- *
- * @since 2.0.0
- */
-async function unregisterAll() {
-    await invoke("plugin:global-shortcut|unregister_all");
-}
 
-export { isRegistered, register, registerAll, unregister, unregisterAll };
+export { isRegistered, register, unregister, unregisterAll };
