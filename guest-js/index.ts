@@ -11,9 +11,9 @@
 import { invoke, Channel } from "@tauri-apps/api/core";
 
 export interface ShortcutEvent {
-  shortcut: string;
-  id: number;
-  state: "Released" | "Pressed";
+	shortcut: string;
+	id: number;
+	state: "Released" | "Pressed";
 }
 
 export type ShortcutHandler = (event: ShortcutEvent) => void;
@@ -49,16 +49,16 @@ export type ShortcutHandler = (event: ShortcutEvent) => void;
  * @since 2.0.0
  */
 async function register(
-  shortcuts: string | string[],
-  handler: ShortcutHandler,
+	shortcuts: string | string[],
+	handler: ShortcutHandler,
 ): Promise<void> {
-  const h = new Channel<ShortcutEvent>();
-  h.onmessage = handler;
+	const h = new Channel<ShortcutEvent>();
+	h.onmessage = handler;
 
-  return await invoke("plugin:global-shortcut|register", {
-    shortcuts: Array.isArray(shortcuts) ? shortcuts : [shortcuts],
-    handler: h,
-  });
+	return await invoke("plugin:global-shortcut|register", {
+		shortcuts: Array.isArray(shortcuts) ? shortcuts : [shortcuts],
+		handler: h,
+	});
 }
 
 /**
@@ -80,9 +80,9 @@ async function register(
  * @since 2.0.0
  */
 async function unregister(shortcuts: string | string[]): Promise<void> {
-  return await invoke("plugin:global-shortcut|unregister", {
-    shortcuts: Array.isArray(shortcuts) ? shortcuts : [shortcuts],
-  });
+	return await invoke("plugin:global-shortcut|unregister", {
+		shortcuts: Array.isArray(shortcuts) ? shortcuts : [shortcuts],
+	});
 }
 
 /**
@@ -96,7 +96,7 @@ async function unregister(shortcuts: string | string[]): Promise<void> {
  * @since 2.0.0
  */
 async function unregisterAll(): Promise<void> {
-  return await invoke("plugin:global-shortcut|unregister_all", {});
+	return await invoke("plugin:global-shortcut|unregister_all", {});
 }
 
 /**
@@ -115,9 +115,9 @@ async function unregisterAll(): Promise<void> {
  * @since 2.0.0
  */
 async function isRegistered(shortcut: string): Promise<boolean> {
-  return await invoke("plugin:global-shortcut|is_registered", {
-    shortcut,
-  });
+	return await invoke("plugin:global-shortcut|is_registered", {
+		shortcut,
+	});
 }
 
 export { register, unregister, unregisterAll, isRegistered };
