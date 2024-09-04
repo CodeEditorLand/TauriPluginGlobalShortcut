@@ -1,7 +1,7 @@
 export interface ShortcutEvent {
     shortcut: string;
     id: number;
-    state: "Released" | "Pressed";
+    state: 'Released' | 'Pressed';
 }
 export type ShortcutHandler = (event: ShortcutEvent) => void;
 /**

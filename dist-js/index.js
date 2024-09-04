@@ -41,9 +41,9 @@ import { Channel, invoke } from '@tauri-apps/api/core';
 async function register(shortcuts, handler) {
     const h = new Channel();
     h.onmessage = handler;
-    return await invoke("plugin:global-shortcut|register", {
+    return await invoke('plugin:global-shortcut|register', {
         shortcuts: Array.isArray(shortcuts) ? shortcuts : [shortcuts],
-        handler: h,
+        handler: h
     });
 }
 /**
@@ -65,8 +65,8 @@ async function register(shortcuts, handler) {
  * @since 2.0.0
  */
 async function unregister(shortcuts) {
-    return await invoke("plugin:global-shortcut|unregister", {
-        shortcuts: Array.isArray(shortcuts) ? shortcuts : [shortcuts],
+    return await invoke('plugin:global-shortcut|unregister', {
+        shortcuts: Array.isArray(shortcuts) ? shortcuts : [shortcuts]
     });
 }
 /**
@@ -80,7 +80,7 @@ async function unregister(shortcuts) {
  * @since 2.0.0
  */
 async function unregisterAll() {
-    return await invoke("plugin:global-shortcut|unregister_all", {});
+    return await invoke('plugin:global-shortcut|unregister_all', {});
 }
 /**
  * Determines whether the given shortcut is registered by this application or not.
@@ -98,8 +98,8 @@ async function unregisterAll() {
  * @since 2.0.0
  */
 async function isRegistered(shortcut) {
-    return await invoke("plugin:global-shortcut|is_registered", {
-        shortcut,
+    return await invoke('plugin:global-shortcut|is_registered', {
+        shortcut
     });
 }
 
