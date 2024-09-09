@@ -34,10 +34,7 @@ export type ShortcutHandler = (event: ShortcutEvent) => void;
  *
  * @since 2.0.0
  */
-declare function register(
-	shortcuts: string | string[],
-	handler: ShortcutHandler,
-): Promise<void>;
+declare function register(shortcuts: string | string[], handler: ShortcutHandler): Promise<void>;
 /**
  * Unregister a global shortcut or a list of shortcuts.
  *
