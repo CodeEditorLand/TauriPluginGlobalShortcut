@@ -1,5 +1,14 @@
 {
+<<<<<<< HEAD
 	"name": "@tauri-apps/plugin-global-shortcut",
+=======
+	"authors": [
+		"Tauri Programme within The Commons Conservancy"
+	],
+	"dependencies": {
+		"@tauri-apps/api": "2.0.0-rc.5"
+	},
+>>>>>>> 8653f615af814120cdd9bd3aacf29d2e19f4db80
 	"exports": {
 		"import": "./dist-js/index.js",
 		"require": "./dist-js/index.cjs",
