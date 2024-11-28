@@ -84,4 +84,5 @@ declare function unregisterAll(): Promise<void>;
  * @since 2.0.0
  */
 declare function isRegistered(shortcut: string): Promise<boolean>;
+
 export { register, unregister, unregisterAll, isRegistered };
